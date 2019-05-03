@@ -1,42 +1,37 @@
 package com.n1nth.currencies;
 
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
+import java.util.List;
 
 
-public class MainFragment extends Fragment {
-    private Spinner currencyFrom;
-    private Spinner currencyTo;
-    private EditText currencyAmount;
-    private TextView currencyResult;
-    private Button convert;
+public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<List> {
+    public static final String SERVER_URL = "https://www.cbr.ru/scripts/XML_daily.asp";
+
+    private Spinner mCurrencyFrom;
+    private Spinner mCurrencyTo;
+    private EditText mCurrencyAmount;
+    private TextView mCurrencyResult;
+    private Button mConvert;
+    private LoaderManager mLoaderManager;
+
 
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
+        mLoaderManager = getLoaderManager();
     }
 
 
@@ -46,66 +41,47 @@ public class MainFragment extends Fragment {
     }
 
 
-
-
-
-
-
-    public static final String SERVER_URL = "https://www.cbr.ru/scripts/XML_daily.asp";
-
-
     @Override
     public void onStart() {
         super.onStart();
 
-        currencyFrom = (Spinner) getView().findViewById(R.id.currency_from);
-        currencyTo = (Spinner) getView().findViewById(R.id.currency_to);
-        currencyAmount = (EditText) getView().findViewById(R.id.amount_input);
-        currencyResult = (TextView) getView().findViewById(R.id.convert_result);
-        convert = (Button) getView().findViewById(R.id.convert_btn);
+        mCurrencyFrom = (Spinner) getView().findViewById(R.id.currency_from);
+        mCurrencyTo = (Spinner) getView().findViewById(R.id.currency_to);
+        mCurrencyAmount = (EditText) getView().findViewById(R.id.amount_input);
+        mCurrencyResult = (TextView) getView().findViewById(R.id.convert_result);
+        mConvert = (Button) getView().findViewById(R.id.convert_btn);
 
 
-        AsyncDownloader asyncDownloader = new AsyncDownloader();
-        asyncDownloader.execute();
+        mLoaderManager.initLoader(1, null, this);
 
-
-
+//        if (mLoaderManager.getLoader(0) != null) {
+//            mLoaderManager.initLoader(0, null, this);
+//        }
 
     }
 
 
 
-
-
-
-    private class AsyncDownloader extends AsyncTask<Object, String, Integer> {
-
-        @Override
-        protected Integer doInBackground(Object... objects) {
-
-            XmlPullParser receivedData = new Downloader().tryDownloadingXmlData(SERVER_URL);
-
-            int recordsFound = new XmlParser().tryParsingXmlData(receivedData);
-
-
-            return recordsFound;
-        }
-
-
-
-
-
-
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-        }
+    @Override
+    public Loader<List> onCreateLoader(int i, Bundle bundle) {
+        return new AsyncDownloader(this.getActivity(), SERVER_URL);
     }
 
 
+    @Override
+    public void onLoadFinished(Loader<List> loader, List list) {
+
+        Valute valuteTmp = (Valute) list.get(0);
+
+        mCurrencyResult.setText(String.valueOf(valuteTmp.getName()));
+
+    }
 
 
+    @Override
+    public void onLoaderReset(Loader<List> loader) {
+
+    }
 
 
 

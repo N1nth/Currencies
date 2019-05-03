@@ -5,15 +5,11 @@
     <string name="convert">Convert</string>
 
 
-
-
     <string-array name="beer_colors">
         <item>lht</item>
         <item>ber</item>
         <item>own</item>
         <item>drk</item>
     </string-array>
-
-
 
 </resources>

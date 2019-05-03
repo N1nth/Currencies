@@ -16,19 +16,17 @@ import java.util.List;
 
 public class XmlParser {
 
-    private Calendar calendar;
-    private List<Valute> valutes;
-
+    private Calendar mCalendar;
+    private List<Valute> mValutes;
 
 
     public Calendar getDate() {
-        return calendar;
+        return mCalendar;
     }
 
 
 
-
-    public int tryParsingXmlData(XmlPullParser receivedData) {
+    public List tryParsingXmlData(XmlPullParser receivedData) {
 
         if (receivedData != null){
             try {
@@ -40,13 +38,12 @@ public class XmlParser {
             }
         }
 
-        return 0;
+        return null;
     }
 
 
 
-
-    private int processReceivedData(XmlPullParser xpp) throws XmlPullParserException, IOException {
+    private List processReceivedData(XmlPullParser xpp) throws XmlPullParserException, IOException {
         String tmp = "";
         Valute valute = null;
 
@@ -54,12 +51,10 @@ public class XmlParser {
         while (xpp.getEventType() != XmlPullParser.END_DOCUMENT) {
             String name = "";
 
-
             // начало документа
             if (xpp.getEventType() == XmlPullParser.START_DOCUMENT) {
-                valutes = new ArrayList<Valute>();
+                mValutes = new ArrayList<Valute>();
             }
-
 
             // парсим xml файл в список объектов Valute
             else if (xpp.getEventType() == XmlPullParser.START_TAG) {
@@ -67,7 +62,6 @@ public class XmlParser {
 
 
                 if (name.equals("ValCurs")) {
-
                     SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
                     Date date = null;
                     try {
@@ -76,9 +70,8 @@ public class XmlParser {
                         e.printStackTrace();
                     }
 
-                    calendar = Calendar.getInstance();
-                    calendar.setTime(date);
-
+                    mCalendar = Calendar.getInstance();
+                    mCalendar.setTime(date);
                 }
 
 
@@ -118,7 +111,6 @@ public class XmlParser {
                             break;
                         }
                     }
-
                 }
 
             }
@@ -127,7 +119,7 @@ public class XmlParser {
             else if (xpp.getEventType() == XmlPullParser.END_TAG) {
                 name = xpp.getName();
                 if (name.equals("Valute") && valute != null) {
-                    valutes.add(valute);
+                    mValutes.add(valute);
                 }
             }
 
@@ -137,26 +129,20 @@ public class XmlParser {
         }
 
 
-//        for (Valute v : valutes) {
-//            System.out.print(v.getCharCode() + " ");
-//            System.out.print(v.getId() + " ");
-//            System.out.print(v.getName() + " ");
-//            System.out.print(v.getNominal() + " ");
-//            System.out.print(v.getNumCode() + " ");
-//            System.out.println(v.getValue());
-//
-//        }
-//        System.out.println(calendar.toString());
+        for (Valute v : mValutes) {
+            System.out.print(v.getCharCode() + " ");
+            System.out.print(v.getId() + " ");
+            System.out.print(v.getName() + " ");
+            System.out.print(v.getNominal() + " ");
+            System.out.print(v.getNumCode() + " ");
+            System.out.println(v.getValue());
+
+        }
+        System.out.println(mCalendar.toString());
 
 
-
-
-
-        return 0;
+        return mValutes;
     }
-
-
-
 
 }
 
