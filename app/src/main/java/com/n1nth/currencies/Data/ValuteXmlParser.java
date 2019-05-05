@@ -1,7 +1,5 @@
-package com.n1nth.currencies;
+package com.n1nth.currencies.Data;
 
-
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -14,8 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class XmlParser {
-
+public class ValuteXmlParser {
     private Calendar mCalendar;
     private List<Valute> mValutes;
 
@@ -26,24 +23,7 @@ public class XmlParser {
 
 
 
-    public List tryParsingXmlData(XmlPullParser receivedData) {
-
-        if (receivedData != null){
-            try {
-                return processReceivedData(receivedData);
-            } catch (XmlPullParserException e) {
-                Log.e("XmlParser", "Ошибка при загрузке XML-документа", e);
-            } catch (IOException e) {
-                Log.e("XmlParser", "IO Exception parsing XML", e);
-            }
-        }
-
-        return null;
-    }
-
-
-
-    private List processReceivedData(XmlPullParser xpp) throws XmlPullParserException, IOException {
+    public List processReceivedData(XmlPullParser xpp) throws XmlPullParserException, IOException {
         String tmp = "";
         Valute valute = null;
 

@@ -1,4 +1,4 @@
-package com.n1nth.currencies;
+package com.n1nth.currencies.Fragments;
 
 
 import android.os.Bundle;
@@ -13,26 +13,34 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.n1nth.currencies.Data.Valute;
+import com.n1nth.currencies.R;
+import com.n1nth.currencies.Data.Valute;
+
 import java.util.List;
 
 
-public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<List> {
-    public static final String SERVER_URL = "https://www.cbr.ru/scripts/XML_daily.asp";
+public class MainFragment extends Fragment {
 
     private Spinner mCurrencyFrom;
     private Spinner mCurrencyTo;
     private EditText mCurrencyAmount;
     private TextView mCurrencyResult;
     private Button mConvert;
-    private LoaderManager mLoaderManager;
+    private List mValutes;
+
+
+    public void setmValutes(List mValutes) {
+        this.mValutes = mValutes;
+    }
 
 
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        mLoaderManager = getLoaderManager();
     }
+
 
 
     @Override
@@ -52,36 +60,14 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         mConvert = (Button) getView().findViewById(R.id.convert_btn);
 
 
-        mLoaderManager.initLoader(1, null, this);
-
-//        if (mLoaderManager.getLoader(0) != null) {
-//            mLoaderManager.initLoader(0, null, this);
-//        }
-
-    }
-
-
-
-    @Override
-    public Loader<List> onCreateLoader(int i, Bundle bundle) {
-        return new AsyncDownloader(this.getActivity(), SERVER_URL);
-    }
-
-
-    @Override
-    public void onLoadFinished(Loader<List> loader, List list) {
-
-        Valute valuteTmp = (Valute) list.get(0);
-
+        Valute valuteTmp = (Valute) mValutes.get(0);
         mCurrencyResult.setText(String.valueOf(valuteTmp.getName()));
 
+
+
     }
 
 
-    @Override
-    public void onLoaderReset(Loader<List> loader) {
-
-    }
 
 
 

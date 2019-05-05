@@ -1,4 +1,4 @@
-package com.n1nth.currencies;
+package com.n1nth.currencies.Data;
 
 public class Valute {
 
