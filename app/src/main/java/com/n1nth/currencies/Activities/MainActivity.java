@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.n1nth.currencies.Data.AsyncDownloader;
+import com.n1nth.currencies.Data.Valute;
 import com.n1nth.currencies.Fragments.DontNetworkFragment;
 import com.n1nth.currencies.Fragments.MainFragment;
 import com.n1nth.currencies.Fragments.ParserExceptionFragment;
@@ -90,6 +91,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if (list != null) {
 
+            Valute valuteRUB = new Valute();
+            valuteRUB.setId("R00000");
+            valuteRUB.setNumCode(810);
+            valuteRUB.setCharCode("RUB");
+            valuteRUB.setNominal(1);
+            valuteRUB.setName("Российский рубль");
+            valuteRUB.setValue(1.0000);
+
+            list.add(valuteRUB);
+
             mMainFragment.setmValutes(list);
 
 
@@ -98,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     .commit();
 
         }
+
          else {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_container, mParserExceptionFragment)
