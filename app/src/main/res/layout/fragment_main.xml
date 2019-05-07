@@ -18,8 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:entries="@array/beer_colors"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/amount_input"
@@ -29,7 +29,8 @@
             android:inputType="number|numberDecimal"
             android:maxLength="11"
             android:textColor="@android:color/black"
-            android:gravity="end"/>
+            android:gravity="end"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -45,8 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:entries="@array/beer_colors"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/convert_result"
@@ -59,7 +60,8 @@
             android:paddingBottom="10dp"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -74,7 +76,37 @@
         android:background="@color/colorPrimary"
         android:text="@string/convert"
         android:textAllCaps="true"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
+
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+
+    <TextView
+        android:id="@+id/dont_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/dont_network"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/parser_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/parser_exception"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
 
 
 </LinearLayout>
